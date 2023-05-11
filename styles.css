@@ -44,7 +44,7 @@ button {
     background-color: rgb(226, 221, 221);
     width: 156px;
 }
-#calcentries {
+#display {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
