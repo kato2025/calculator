@@ -99,5 +99,3 @@ buttons.forEach(function(button) {
 // Clear button event listener
 document.getElementById('btnC').addEventListener('click', handleClearClick);
 
-// Backspace button event listener
-document.getElementById('btn⌫').addEventListener('click', handleBackspaceClick);
