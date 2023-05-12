@@ -1,65 +1,103 @@
 // Variables
-const calculator = document.getElementById("calculator");
-const calcInterface = document.getElementById("calcinterface");
-const calcDisplay = document.getElementById("display");
-const calcButtons = document.getElementById("calcbuttons");
-let cleared = false; // Added variable to track if display is cleared
+let firstNumber = '';
+let secondNumber = '';
+let operator = '';
+let display = document.getElementById('display');
 
-// Functions
-function clear() {
-  calcDisplay.textContent = "";
-  cleared = true; // Set cleared to true when display is cleared
+// Function to update the display
+function updateDisplay(value) {
+  display.textContent = value;
 }
 
-function backspace() {
-  const text = calcDisplay.textContent;
-  if (text.length > 0) {
-    calcDisplay.textContent = text.slice(0, -1);
-  }
-}
-
-function operate() {
-  const expression = calcDisplay.textContent;
-  try {
-    const result = Function(`"use strict"; return (${expression});`)();
-    const roundedResult = Math.round(result * 10) / 10; // Round result to 1 decimal place
-    calcDisplay.textContent = roundedResult;
-    cleared = true; // Set cleared to true after displaying the result
-  } catch (error) {
-    calcDisplay.textContent = "Error";
+// Function to handle number button clicks
+function handleNumberClick(number) {
+  if (operator === '') {
+    firstNumber += number;
+    updateDisplay(firstNumber);
+  } else {
+    secondNumber += number;
+    updateDisplay(secondNumber);
   }
 }
 
-// Event listeners
-calcButtons.addEventListener("click", (event) => {
-  const button = event.target;
-  const text = button.textContent;
-  const operators = ["+", "-", "*", "/", "%", "🟰"];
-  if (operators.includes(text) && text !== "-") {
-    if (calcDisplay.textContent.length === 0) {
-      return;
-    }
-    const lastCharacter = calcDisplay.textContent[calcDisplay.textContent.length - 1];
-    if (isNaN(lastCharacter)) {
-      return;
-    }
+// Function to handle operator button clicks
+function handleOperatorClick(op) {
+  if (firstNumber === '') {
+    // Do nothing if the first number is not entered yet
+    return;
   }
-  if (cleared && !isNaN(text)) {
-    clear(); // Clear display if a number is pressed after results are displayed
+  
+  if (secondNumber !== '') {
+    // If the second number is already entered, calculate the result
+    calculateResult();
   }
-  cleared = false; // Reset cleared to false
-  switch (text) {
-    case "C":
-      clear();
+  
+  operator = op;
+}
+
+// Function to calculate the result
+function calculateResult() {
+  const num1 = parseFloat(firstNumber);
+  const num2 = parseFloat(secondNumber);
+  let result;
+  
+  // Perform the calculation based on the operator
+  switch (operator) {
+    case '➕':
+      result = num1 + num2;
       break;
-    case "⌫":
-      backspace();
+    case '➖':
+      result = num1 - num2;
       break;
-    case "🟰":
-      operate();
+    case '✖️':
+      result = num1 * num2;
+      break;
+    case '➗':
+      result = num1 / num2;
+      break;
+    case '%':
+      result = num1 % num2;
       break;
     default:
-      calcDisplay.textContent += text;
-      break;
+      return;
   }
+  
+  // Update the display with the result
+  updateDisplay(result);
+  
+  // Reset the variables
+  firstNumber = result.toString();
+  secondNumber = '';
+  operator = '';
+}
+
+// Function to handle clear button click
+function handleClearClick() {
+  firstNumber = '';
+  secondNumber = '';
+  operator = '';
+  updateDisplay('');
+}
+
+// Attach event listeners to the buttons
+const buttons = document.querySelectorAll('#calcbuttons button');
+
+buttons.forEach(function(button) {
+  button.addEventListener('click', function() {
+    const value = this.textContent;
+    
+    if (!isNaN(parseFloat(value)) || value === '.') {
+      // If the button clicked is a number or decimal point
+      handleNumberClick(value);
+    } else {
+      // If the button clicked is an operator
+      handleOperatorClick(value);
+    }
+  });
 });
+
+// Clear button event listener
+document.getElementById('btnC').addEventListener('click', handleClearClick);
+
+// Backspace button event listener
+document.getElementById('btn⌫').addEventListener('click', handleBackspaceClick);

@@ -37,12 +37,20 @@ button {
 #calcbuttons button:nth-child(8),
 #calcbuttons button:nth-child(12),
 #calcbuttons button:nth-child(15),
-#calcbuttons button:nth-child(16) {
+#calcbuttons button:nth-child(16),
+#calcbuttons button:nth-child(17),
+#calcbuttons button:nth-child(18) {
     background-color: rgb(226, 221, 221);
 }
-#calcbuttons button:nth-child(19) {
-    background-color: rgb(226, 221, 221);
+#calcbuttons button:nth-child(17),
+#calcbuttons button:nth-child(18) {
     width: 156px;
+}
+#calcbuttons button:nth-child(14) {
+    font-size: 40px;
+}
+#calcbuttons button:nth-child(15) {
+    font-weight: 600;
 }
 #display {
     display: flex;
