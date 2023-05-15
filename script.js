@@ -1,4 +1,3 @@
-// Variables
 let firstNumber = '';
 let secondNumber = '';
 let operator = '';
@@ -33,7 +32,7 @@ function handleNumberClick(number) {
       return; // Skip adding the decimal point
     }
     secondNumber += number;
-    updateDisplay(secondNumber);
+    updateDisplay(firstNumber + operator + secondNumber); // Concatenate the numbers and operator on the display
   }
 }
 
@@ -49,13 +48,18 @@ function handleBackspaceClick() {
   } else {
     // If an operator is selected, remove the last character from the second number
     secondNumber = secondNumber.slice(0, -1);
-    updateDisplay(secondNumber);
+    updateDisplay(firstNumber + operator + secondNumber); // Update the display with concatenated numbers and operator
   }
 }
 
 // Function to handle operator button clicks
 function handleOperatorClick(op) {
-  if (firstNumber === '') {
+  if (result !== null) {
+    // If a result exists, set it as the new firstNumber and reset the secondNumber and result
+    firstNumber = result.toString();
+    secondNumber = '';
+    result = null;
+  } else if (firstNumber === '') {
     // Do nothing if the first number is not entered yet
     return;
   }
@@ -63,10 +67,15 @@ function handleOperatorClick(op) {
   if (secondNumber !== '') {
     // If the second number is already entered, calculate the result
     operate();
+    updateDisplay(result); // Update the display with the result
+    firstNumber = result.toString(); // Set the result as the new first number
+    secondNumber = '';
   }
 
   operator = op;
 }
+
+
 
 // Function to calculate the result
 function operate() {
@@ -98,14 +107,6 @@ function operate() {
   if (Number.isFinite(result) && result % 1 !== 0) {
     result = result.toFixed(2);
   }
-
-  // Update the display with the result
-  updateDisplay(result);
-
-  // Reset the variables
-  firstNumber = '';
-  secondNumber = '';
-  operator = '';
 }
 
 // Function to handle clear button click
@@ -117,7 +118,6 @@ function handleClearClick() {
   updateDisplay('');
 }
 
-// Attach event listeners to the buttons
 // Attach event listeners to the buttons
 const buttons = document.querySelectorAll('#calcbuttons button');
 
@@ -143,10 +143,7 @@ buttons.forEach(function (button) {
 // Clear button event listener
 document.getElementById('btnC').addEventListener('click', handleClearClick);
 
-
-
 /*
-// Variables
 let firstNumber = '';
 let secondNumber = '';
 let operator = '';
@@ -181,10 +178,25 @@ function handleNumberClick(number) {
       return; // Skip adding the decimal point
     }
     secondNumber += number;
-    updateDisplay(secondNumber);
+    updateDisplay(firstNumber + operator + secondNumber); // Concatenate the numbers and operator on the display
   }
 }
 
+// Function to handle backspace button click
+function handleBackspaceClick() {
+  if (result !== null) {
+    // If a result exists, clear the display and reset the calculation
+    handleClearClick();
+  } else if (operator === '') {
+    // If no operator is selected, remove the last character from the first number
+    firstNumber = firstNumber.slice(0, -1);
+    updateDisplay(firstNumber);
+  } else {
+    // If an operator is selected, remove the last character from the second number
+    secondNumber = secondNumber.slice(0, -1);
+    updateDisplay(firstNumber + operator + secondNumber); // Update the display with concatenated numbers and operator
+  }
+}
 
 // Function to handle operator button clicks
 function handleOperatorClick(op) {
@@ -196,10 +208,14 @@ function handleOperatorClick(op) {
   if (secondNumber !== '') {
     // If the second number is already entered, calculate the result
     operate();
+    updateDisplay(result); // Update the display with the result
+    firstNumber = result.toString(); // Set the result as the new first number
+    secondNumber = '';
   }
 
   operator = op;
 }
+
 // Function to calculate the result
 function operate() {
   const num1 = parseFloat(firstNumber);
@@ -230,16 +246,7 @@ function operate() {
   if (Number.isFinite(result) && result % 1 !== 0) {
     result = result.toFixed(2);
   }
-
-  // Update the display with the result
-  updateDisplay(result);
-
-  // Reset the variables
-  firstNumber = '';
-  secondNumber = '';
-  operator = '';
 }
-
 
 // Function to handle clear button click
 function handleClearClick() {
@@ -254,17 +261,22 @@ function handleClearClick() {
 const buttons = document.querySelectorAll('#calcbuttons button');
 
 buttons.forEach(function (button) {
-  button.addEventListener('click', function () {
-    const value = this.textContent;
+  const value = button.textContent;
 
-    if (!isNaN(parseFloat(value)) || value === '.') {
-      // If the button clicked is a number or decimal point
+  if (value === '⌫') {
+    // If the button is backspace, attach the backspace click handler
+    button.addEventListener('click', handleBackspaceClick);
+  } else if (!isNaN(parseFloat(value)) || value === '.') {
+    // If the button clicked is a number or decimal point
+    button.addEventListener('click', function () {
       handleNumberClick(value);
-    } else {
-      // If the button clicked is an operator
+    });
+  } else {
+    // If the button clicked is an operator
+    button.addEventListener('click', function () {
       handleOperatorClick(value);
-    }
-  });
+    });
+  }
 });
 
 // Clear button event listener
