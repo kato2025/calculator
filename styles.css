@@ -14,8 +14,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 400px;
-    height: 410px;
+    max-width: 500px;
+    height: 510px;
     margin: auto;
     margin-top: 55px;
 }
@@ -23,24 +23,34 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: rgb(215, 209, 209);
 }
 #calcbuttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1px;
+    gap: 4px;
+    margin: auto;
+    max-width: 410px;
+    height: 480px;
     border: 1px solid black;
+    border-radius: 4%;
+    box-shadow: 0px 3px 2px 5px  #810627;
+    background-color: #f8d7e0;
 }
 button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 98px;
-    height: 90px;
-    border-radius: 10%;
+    margin-top: 2px;
+    margin-right: 1px;
+    width: 94px;
+    height: 86px;
+    border-radius: 100%;
     font-size: 27px;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #810627;
+    background-color: #022750;
 }
 #calcbuttons button:nth-child(3),
 #calcbuttons button:nth-child(4),
@@ -48,7 +58,14 @@ button {
 #calcbuttons button:nth-child(12),
 #calcbuttons button:nth-child(16),
 #calcbuttons button:nth-child(20){
-    background-color: rgb(226, 221, 221);
+    background-color: #fac9d6;
+}
+#calcbuttons button:nth-child(1),
+#calcbuttons button:nth-child(2),
+#calcbuttons button:nth-child(3) {
+    box-shadow: 1px 1px 1px 1px  #022750;
+    background-color: #810627;
+    color: #FFF;
 }
 #calcbuttons button:nth-child(19) {
     font-size: 40px;
@@ -61,11 +78,14 @@ button {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    height: 40px;
-    padding-right: 10px;
+    margin-left: 31px;
+    max-width: 420px;
+    height: 70px;
+    padding-right: 15px;
     font-size:27px;
     font-family: Arial, Helvetica, sans-serif;
     border: 1px solid black;
-    border-bottom: 0px;
-    background-color: rgb(195, 193, 193);
+    border-radius: 60%;
+    box-shadow: 1px 1px 2px 2px #810627;
+    background-color:  #fac9d6;
 }
